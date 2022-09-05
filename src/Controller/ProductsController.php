@@ -28,19 +28,13 @@ class ProductsController extends  AbstractController
     public function lowestPrice(
         Request $request, int $id, DTOSerializer $serializer, PromotionsFilterInterface $promotionsFilter, PromotionCache $promotionCache): Response
     {
-        if ($request->headers->has('force_fail')) {
-            return new JsonResponse(
-                ['error' => 'Promotions Engine failure message'],
-                $request->headers->get('force_fail')
-            );
-        }
 
         // Deserialize json data into a EnquiryDTO
         $lowestPriceEnquiry = $serializer->deserialize(
             $request->getContent(), LowestPriceEnquiry::class, 'json'
         );
 
-        $product = $this->repository->find($id);
+        $product = $this->repository->findOrFail($id);
 
         $lowestPriceEnquiry->setProduct($product);
 

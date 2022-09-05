@@ -29,7 +29,7 @@ class DtoSubscriberTest extends ServiceTestCase
 
         // Expect
         $this->expectException(ServiceException::class);
-        $this->expectExceptionMessage('Validation failed');
+        $this->expectExceptionMessage('ConstraintViolationList');
 
         // When
         $eventDispatcher->dispatch($event, $event::NAME);
